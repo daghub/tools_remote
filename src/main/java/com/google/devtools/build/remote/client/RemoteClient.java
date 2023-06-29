@@ -128,6 +128,17 @@ public class RemoteClient {
     return numFilesListed;
   }
 
+  private void listDirectory2(Path path, Directory dir) throws IOException {
+    listFileNodes(path, dir, 100);
+    for (DirectoryNode child : dir.getDirectoriesList()) {
+      Path childPath = path.resolve(child.getName());
+      printDirectoryNodeDetails(child, childPath);
+      Digest childDigest = child.getDigest();
+      Directory childDir = Directory.parseFrom(cache.downloadBlob(childDigest));
+      listDirectory2(childPath, childDir);
+    }
+  }
+
   // Recursively list OutputDirectory with digests.
   private void listOutputDirectory(OutputDirectory dir, int limit) throws IOException {
     Tree tree;
@@ -258,11 +269,22 @@ public class RemoteClient {
     System.out.printf("Command [digest: %s]:\n", digestUtil.toString(action.getCommandDigest()));
     printCommand(command);
 
-    Tree tree = cache.getTree(action.getInputRootDigest());
-    System.out.printf(
-        "\nInput files [total: %d, root Directory digest: %s]:\n",
-        getNumFiles(tree), digestUtil.toString(action.getInputRootDigest()));
-    listTree(Paths.get(""), tree, limit);
+    System.out.printf("Input Root [digest: %s]:\n", digestUtil.toString(action.getInputRootDigest()));
+    Directory inputDir = Directory.parseFrom(cache.downloadBlob(action.getInputRootDigest()));
+    listDirectory2(Paths.get(""), inputDir);
+
+    // for (DirectoryNode childNode : inputDir.getDirectoriesList()) {
+    //   Directory childDir = Directory.parseFrom(cache.downloadBlob(childNode.getDigest()));
+    //   // directories.add(childDir);
+    //   // addChildDirectories(childDir, directories);
+    //   System.out.printf("-- ChildDir ");
+    // }
+
+    // Tree tree = cache.getTree(action.getInputRootDigest());
+    // System.out.printf(
+    //     "\nInput files [total: %d, root Directory digest: %s]:\n",
+    //     getNumFiles(tree), digestUtil.toString(action.getInputRootDigest()));
+    // listTree(Paths.get(""), tree, limit);
 
     System.out.println("\nOutput files:");
     printList(command.getOutputFilesList(), limit);

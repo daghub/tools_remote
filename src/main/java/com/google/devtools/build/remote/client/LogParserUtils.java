@@ -17,12 +17,16 @@ package com.google.devtools.build.remote.client;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// "@remoteapis//build/bazel/remote/execution/v2:remote_execution_java_proto",
 import build.bazel.remote.execution.v2.Digest;
 import build.bazel.remote.execution.v2.ExecuteResponse;
+import build.bazel.remote.execution.v2.ExecuteOperationMetadata;
 import build.bazel.remote.execution.v2.ExecuteOperationMetadata;
 import com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry;
 import com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.RpcCallDetails;
 import com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.V1WatchDetails;
+import com.google.devtools.build.lib.remote.logging.Nvidiametadata.BazelHeaderMetadata;
+import com.google.devtools.build.lib.remote.logging.Resourceusage.POSIXResourceUsage;
 import com.google.devtools.build.remote.client.RemoteClientOptions.PrintLogCommand;
 import com.google.longrunning.Operation;
 import com.google.longrunning.Operation.ResultCase;
@@ -232,6 +236,8 @@ public class LogParserUtils {
           .usingTypeRegistry(
               JsonFormat.TypeRegistry.newBuilder()
               .add(ExecuteOperationMetadata.getDescriptor())
+              .add(BazelHeaderMetadata.getDescriptor())
+              .add(POSIXResourceUsage.getDescriptor())
               .build())
           .print(checkNotNull(input));
   }

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package buildbarn.nvidiametadata;
+
+option java_package = "com.google.devtools.build.lib.remote.logging";
+
+message KeyValue {
+    string key = 1;
+    string value = 2;
+}
+
+message BazelHeaderMetadata {
+    repeated KeyValue headers = 1;
+}

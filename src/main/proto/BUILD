@@ -18,3 +18,29 @@ java_proto_library(
     name = "remote_execution_log_java_proto",
     deps = [":remote_execution_log_proto"],
 )
+
+proto_library(
+    name = "nvidiametadata_proto",
+    srcs = [":nvidiametadata.proto"],
+)
+
+java_proto_library(
+    name = "nvidia_java_proto",
+    deps = [":nvidiametadata_proto"],
+)
+
+proto_library(
+    name = "buildbarn_resourceusage_proto",
+    srcs = [":resourceusage.proto"],
+    deps = [
+        "@com_google_protobuf//:any_proto",
+        "@com_google_protobuf//:duration_proto",
+        "@com_google_protobuf//:empty_proto",
+        "@com_google_protobuf//:timestamp_proto",
+    ],
+)
+
+java_proto_library(
+    name = "buildbarn_resourceusage_java_proto",
+    deps = [":buildbarn_resourceusage_proto"],
+)

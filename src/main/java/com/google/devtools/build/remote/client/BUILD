@@ -11,6 +11,7 @@ java_library(
     deps = [
         "//src/main/proto:remote_execution_log_java_proto",
         "//src/main/proto:nvidia_java_proto",
+        "//src/main/proto:healthchecks_java_proto",
         "//src/main/proto:buildbarn_resourceusage_java_proto",
         "@com_google_protobuf//:protobuf_java",
         "@com_google_protobuf//:protobuf_java_util",

@@ -26,6 +26,7 @@ import com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.LogEntry;
 import com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.RpcCallDetails;
 import com.google.devtools.build.lib.remote.logging.RemoteExecutionLog.V1WatchDetails;
 import com.google.devtools.build.lib.remote.logging.Nvidiametadata.BazelHeaderMetadata;
+import com.google.devtools.build.lib.remote.logging.Healthchecks.HealthCheckFailure;
 import com.google.devtools.build.lib.remote.logging.Resourceusage.POSIXResourceUsage;
 import com.google.devtools.build.remote.client.RemoteClientOptions.PrintLogCommand;
 import com.google.longrunning.Operation;
@@ -237,6 +238,7 @@ public class LogParserUtils {
               JsonFormat.TypeRegistry.newBuilder()
               .add(ExecuteOperationMetadata.getDescriptor())
               .add(BazelHeaderMetadata.getDescriptor())
+              .add(HealthCheckFailure.getDescriptor())
               .add(POSIXResourceUsage.getDescriptor())
               .build())
           .print(checkNotNull(input));

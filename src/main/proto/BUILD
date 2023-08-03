@@ -44,3 +44,13 @@ java_proto_library(
     name = "buildbarn_resourceusage_java_proto",
     deps = [":buildbarn_resourceusage_proto"],
 )
+
+proto_library(
+    name = "healthchecks_proto",
+    srcs = [":healthchecks.proto"],
+)
+
+java_proto_library(
+    name = "healthchecks_java_proto",
+    deps = [":healthchecks_proto"],
+)

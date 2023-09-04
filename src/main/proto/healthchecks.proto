@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package buildbarn.healthchecks;
+
+option java_package = "com.google.devtools.build.lib.remote.logging";
+// option go_package = "github.com/buildbarn/bb-remote-execution/pkg/proto/healthchecks";
+
+message HealthCheckFailure {
+    string reason = 1;
+}
